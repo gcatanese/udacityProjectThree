@@ -68,9 +68,11 @@ VPC_ID :: xxxxxxx
 Make a note of the output as they must be used in the next step.
 
 4. Edit 'dwh.cfg' to define the following variables:
+```
 HOST=<value of DWH_ENDPOINT>
 ARN=<value of DWH_ROLE_ARN>
 VPC_ID=<value of VPC_ID>
+```
 
 5. Execute 'enable_incoming_traffic.py' and verify the connection to the database is successful
 
@@ -87,14 +89,18 @@ The cluster can be deleted executing the 'stop.py' Python file (or via the AWS C
 ## Analytics
 
 # number of users per level and gender
+```
 SELECT count(*), us.level, us.gender from users us 
 group by us.level, us.gender
 limit 10
+```
 
 # popular artists by month
+```
 select count(ar.name), ar.name, month, year 
 from song_plays sp join time ti on sp.start_time=ti.start_time
 join artists ar on sp.artist_id=ar.artist_id
 group by month, year, ar.name
 order by count(ar.name) desc
 limit 10
+```
