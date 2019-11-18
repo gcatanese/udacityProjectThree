@@ -36,8 +36,6 @@ The final schema is designed around the Star Schema principle with one fact tabl
 4. ARTISTS
 5. TIME
 
-sort key? dist key?
-
 **Data Loading**
 
 The data is loaded using INSERT INTO SELECT statement: for each table an INSERT statement is defined
@@ -84,4 +82,19 @@ The database will be (eventually) loaded with the data and ready to receive the 
 
 **Delete the Cluster**
  
- The cluster can be deleted executing the 'stop.py' Python file (or via the AWS Console)
+The cluster can be deleted executing the 'stop.py' Python file (or via the AWS Console)
+ 
+## Analytics
+
+# number of users per level and gender
+SELECT count(*), us.level, us.gender from users us 
+group by us.level, us.gender
+limit 10
+
+# popular artists by month
+select count(ar.name), ar.name, month, year 
+from song_plays sp join time ti on sp.start_time=ti.start_time
+join artists ar on sp.artist_id=ar.artist_id
+group by month, year, ar.name
+order by count(ar.name) desc
+limit 10

@@ -63,7 +63,7 @@ songplay_table_create = ("""
 CREATE TABLE song_plays (
 songplay_id BIGINT IDENTITY(1,1),
 start_time TIMESTAMP NOT NULL,
-user_id VARCHAR NOT NULL DISTKEY,
+user_id VARCHAR NOT NULL DISTKEY SORTKEY,
 level VARCHAR(10) NOT NULL,
 song_id VARCHAR NOT NULL,
 artist_id VARCHAR NOT NULL, 
@@ -87,15 +87,15 @@ song_table_create = ("""
 CREATE TABLE songs (
 song_id VARCHAR NOT NULL, 
 title VARCHAR NOT NULL, 
-artist_id VARCHAR NOT NULL, 
-year SMALLINT,
+artist_id VARCHAR NOT NULL DISTKEY, 
+year SMALLINT SORTKEY,
 duration FLOAT
 );
 """)
 
 artist_table_create = ("""
 CREATE TABLE artists (
-artist_id VARCHAR NOT NULL, 
+artist_id VARCHAR NOT NULL DISTKEY, 
 name VARCHAR NOT NULL, 
 location VARCHAR, 
 latitude FLOAT,
