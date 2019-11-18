@@ -10,7 +10,7 @@ the Sparkify team to design and execute their analytics queries.
 The README presents the following:
 1. Data Model (and how the data is loaded)
 2. Create and destroy the Redshift cluster
-3. Execute the ETL
+3. Hot to execute the ETL
 
 ## Data Model
 
@@ -48,6 +48,7 @@ extract parts of a timestamp).
 ## RedShift Cluster
 
 The 'Infrastructure as Code' approach is embraced to create the necessary AWS resources.
+
 The 'infra' directory provides the code to:
 - create and start the cluster (including role and policy)
 - enable incoming traffic
@@ -55,4 +56,6 @@ The 'infra' directory provides the code to:
 - stop and destroy the cluster
 
 ## Execute the ETL
+
+1. Config dwh.cfg accordingly
 
