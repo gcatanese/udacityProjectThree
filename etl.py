@@ -1,7 +1,6 @@
 import configparser
 import psycopg2
-from projectThree.sql_queries import copy_table_queries, insert_table_queries
-
+from sql_queries import copy_table_queries, insert_table_queries
 
 def load_staging_tables(cur, conn):
     """
@@ -29,6 +28,10 @@ def insert_tables(cur, conn):
         conn.commit()
 
 def print_counters(cur):
+    """
+    Print num of records of each table involved in the ETL pipeline
+    :param cur:
+    """
     tables = ['staging_events', 'staging_songs', 'song_plays', 'users', 'songs', 'artists', 'time']
     for table in tables:
         cur.execute("SELECT COUNT(*) FROM " + table)

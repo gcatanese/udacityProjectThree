@@ -22,9 +22,9 @@ DWH_DB_PASSWORD = config.get('CLUSTER', 'DB_PASSWORD')
 DWH_DB_PORT = config.get('CLUSTER', 'DB_PORT')
 
 #EndPoint from CHECK_CLUSTER_STATUS step
-DWH_ENDPOINT = 'dwhhost.cgzfv3rsniat.us-west-2.redshift.amazonaws.com'
+DWH_ENDPOINT = config.get('CLUSTER', 'HOST')
 #VPC_ID from CHECK_CLUSTER_STATUS step
-VPC_ID = 'vpc-781d9500'
+VPC_ID = config.get('IAM_ROLE', 'ARN')
 
 if DWH_ENDPOINT == '' :
     raise ValueError('Dont forget to configure DWH_ENDPOINT')
@@ -54,12 +54,6 @@ try:
     )
 except Exception as e:
     print(e)
-
-#Make sure you can connect to the cluster
-#%load_ext sql
-#conn_string="postgresql://{}:{}@{}:{}/{}".format(DWH_DB_USER, DWH_DB_PASSWORD, DWH_ENDPOINT, DWH_DB_PORT, DWH_DB)
-#print(conn_string)
-#%sql $conn_string
 
 conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
 print(conn)

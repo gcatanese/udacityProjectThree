@@ -54,7 +54,7 @@ print("redshift", redshift)
 try:
     dwhRole = iam.create_role(
         Path='/',
-        RoleName=DWH_IAM_ROLE,
+        RoleName=DWH_IAM_ROLE_NAME,
         Description="Allows Redshift clusters to call AWS services on your behalf.",
         AssumeRolePolicyDocument=json.dumps(
             {'Version': '2012-10-17',

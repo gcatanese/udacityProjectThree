@@ -58,4 +58,30 @@ The 'infra' directory provides the code to:
 ## Execute the ETL
 
 1. Config dwh.cfg accordingly
+2. Execute 'start.py'
+3. Execute 'check_cluster_status.py': run this several times until the output confirms the Cluster is available
+```
+Cluster IS AVAILABLE
+#######
+DWH_ENDPOINT :: xxxxxxxxx
+DWH_ROLE_ARN :: xxxxxxxxx
+VPC_ID :: xxxxxxx
+```
+Make a note of the output as they must be used in the next step.
 
+4. Edit 'dwh.cfg' to define the following variables:
+HOST=<value of DWH_ENDPOINT>
+ARN=<value of DWH_ROLE_ARN>
+VPC_ID=<value of VPC_ID>
+
+5. Execute 'enable_incoming_traffic.py' and verify the connection to the database is successful
+
+6. Execute 'create_tables.sql' to drop/create all tables
+
+7. Execute 'etl.py' to run the pipeline
+
+The database will be (eventually) loaded with the data and ready to receive the analytic queries of the team.
+
+**Delete the Cluster**
+ 
+ The cluster can be deleted executing the 'stop.py' Python file (or via the AWS Console)
