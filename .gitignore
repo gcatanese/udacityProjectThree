@@ -1,4 +1,4 @@
 .DS_Store
 .idea/
 *.iml
-dwh.cfg
+dwh-private.cfg
