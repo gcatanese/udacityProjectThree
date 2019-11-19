@@ -9,12 +9,14 @@ SECRET = config.get('AWS', 'SECRET')
 
 DWH_CLUSTER_IDENTIFIER = config.get('CLUSTER', 'DWH_CLUSTER_IDENTIFIER')
 
+# create client
 redshift = boto3.client('redshift',
                         region_name="us-west-2",
                         aws_access_key_id=KEY,
                         aws_secret_access_key=SECRET
                         )
 try:
+    # delete cluster
     response = redshift.delete_cluster(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER, SkipFinalClusterSnapshot=True)
     print('response', response)
 except Exception as e:

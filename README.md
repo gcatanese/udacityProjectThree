@@ -36,6 +36,15 @@ The final schema is designed around the Star Schema principle with one fact tabl
 4. ARTISTS
 5. TIME
 
+KEYDISTs and SORTKEYs have been defined to improve the type of queries which the Sparkify team will run.
+
+Creating a KEYDIST on song_plays.artist_id and artists.artist_id I was able to decrease the 
+Query 'popular artists by month' (see below) response time from 17-15 sec to 2-3 sec.
+
+SORTKEYs have been defined on colums when sorting or filtering is likely to happen, for example on 
+time.start_time as analytics would probably focus on most recent data.
+  
+
 **Data Loading**
 
 The data is loaded using INSERT INTO SELECT statement: for each table an INSERT statement is defined
@@ -88,19 +97,19 @@ The cluster can be deleted executing the 'stop.py' Python file (or via the AWS C
  
 ## Analytics
 
-# number of users per level and gender
+# Query 'number of users per level and gender'
 ```
-SELECT count(*), us.level, us.gender from users us 
-group by us.level, us.gender
-limit 10
+SELECT COUNT(*) AS total, us.level AS level, us.gender AS gender FROM users us 
+GROUP BY us.level, us.gender
+LIMIT 10
 ```
 
-# popular artists by month
+# Query 'popular artists by month'
 ```
-select count(ar.name), ar.name, month, year 
-from song_plays sp join time ti on sp.start_time=ti.start_time
-join artists ar on sp.artist_id=ar.artist_id
-group by month, year, ar.name
-order by count(ar.name) desc
-limit 10
+SELECT COUNT(ar.name), ar.name, month, year 
+FROM song_plays sp JOIN time ti ON sp.start_time=ti.start_time
+JOIN artists ar ON sp.artist_id=ar.artist_id
+GROUP BY month, year, ar.name
+ORDER BY count(ar.name) DESC
+LIMIT 10
 ```

@@ -28,6 +28,9 @@ def create_tables(cur, conn):
     print('Tables have been created')
 
 def main():
+    """
+    Main method which invokes drop_tables and create_tables
+    """
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 

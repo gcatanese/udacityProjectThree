@@ -63,10 +63,10 @@ songplay_table_create = ("""
 CREATE TABLE song_plays (
 songplay_id BIGINT IDENTITY(1,1),
 start_time TIMESTAMP NOT NULL,
-user_id VARCHAR NOT NULL DISTKEY SORTKEY,
+user_id VARCHAR NOT NULL SORTKEY,
 level VARCHAR(10) NOT NULL,
 song_id VARCHAR NOT NULL,
-artist_id VARCHAR NOT NULL, 
+artist_id VARCHAR NOT NULL DISTKEY, 
 sessionid INT NOT NULL,
 location VARCHAR,
 user_agent VARCHAR
@@ -75,7 +75,7 @@ user_agent VARCHAR
 
 user_table_create = ("""
 CREATE TABLE users (
-user_id VARCHAR NOT NULL DISTKEY, 
+user_id VARCHAR NOT NULL SORTKEY, 
 first_name VARCHAR NOT NULL, 
 last_name VARCHAR NOT NULL, 
 gender VARCHAR(1) NOT NULL, 

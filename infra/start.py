@@ -1,10 +1,8 @@
 import boto3
 import json
-
-# read config
-
 import configparser
 
+# read config
 config = configparser.ConfigParser()
 config.read_file(open('../dwh.cfg'))
 
@@ -21,9 +19,7 @@ DWH_DB_USER = config.get('CLUSTER', 'DB_USER')
 DWH_DB_PASSWORD = config.get('CLUSTER', 'DB_PASSWORD')
 DWH_DB_PORT = config.get('CLUSTER', 'DB_PORT')
 
-
 # create clients
-
 ec2 = boto3.resource('ec2',
                      region_name="us-west-2",
                      aws_access_key_id=KEY,
@@ -47,10 +43,7 @@ redshift = boto3.client('redshift',
                         aws_secret_access_key=SECRET
                         )
 
-print("redshift", redshift)
-
 # define role
-
 try:
     dwhRole = iam.create_role(
         Path='/',
@@ -65,16 +58,15 @@ try:
 except Exception as e:
     print(e)
 
+# attach role policy
 iam.attach_role_policy(RoleName=DWH_IAM_ROLE_NAME,
                        PolicyArn="arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
                        )['ResponseMetadata']['HTTPStatusCode']
 
 roleArn = iam.get_role(RoleName=DWH_IAM_ROLE_NAME)['Role']['Arn']
-
 print('roleArn', roleArn)
 
 # Fire up cluster!
-
 try:
     response = redshift.create_cluster(
         # HW

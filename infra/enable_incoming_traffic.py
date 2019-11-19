@@ -1,10 +1,8 @@
 import boto3
 import psycopg2
-
-# read config
-
 import configparser
 
+# read config
 config = configparser.ConfigParser()
 config.read_file(open('../dwh.cfg'))
 
@@ -21,11 +19,10 @@ DWH_DB_USER = config.get('CLUSTER', 'DB_USER')
 DWH_DB_PASSWORD = config.get('CLUSTER', 'DB_PASSWORD')
 DWH_DB_PORT = config.get('CLUSTER', 'DB_PORT')
 
-#EndPoint from CHECK_CLUSTER_STATUS step
 DWH_ENDPOINT = config.get('CLUSTER', 'HOST')
-#VPC_ID from CHECK_CLUSTER_STATUS step
 VPC_ID = config.get('IAM_ROLE', 'ARN')
 
+# Ensure settings have been defined
 if DWH_ENDPOINT == '' :
     raise ValueError('Dont forget to configure DWH_ENDPOINT')
 
@@ -33,8 +30,7 @@ if VPC_ID == '' :
     raise ValueError('Dont forget to configure VPC_ID')
 
 
-# create clients
-
+# create client
 ec2 = boto3.resource('ec2',
                      region_name="us-west-2",
                      aws_access_key_id=KEY,
@@ -55,5 +51,6 @@ try:
 except Exception as e:
     print(e)
 
+# Verify DB connection is succesful
 conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
 print(conn)
